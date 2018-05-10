@@ -46,7 +46,14 @@ Container.displayName = 'Container';
 
 export default () => (
   <Container>
-    <div>App Header</div>
+    <div
+      style={{
+        color: '#2D3142',
+        background: '#EC5766'
+      }}
+    >
+      App Header
+    </div>
 
     <ListContainer>
       {lists.map(list => <List title={list.name} cards={list.cards} />)}

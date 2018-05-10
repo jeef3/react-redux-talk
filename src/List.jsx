@@ -12,6 +12,7 @@ const Container = styled.div`
 
   > * {
     padding: 0 10px;
+
     background: #bfc0c0;
   }
 `;
@@ -35,7 +36,7 @@ const List = styled.ul`
 List.displayName = 'List';
 
 const CardWrapper = styled.li`
-  &:not:(:last-child) {
+  &:not(:last-child) {
     margin-bottom: 10px;
   }
 `;
