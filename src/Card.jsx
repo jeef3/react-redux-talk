@@ -5,8 +5,9 @@ const Card = styled.div`
   padding: 5px;
   margin-bottom: 10px;
 
-  background: #ffffff;
   border-radius: 3px;
+
+  background: #ffffff;
 
   :last-child {
     margin-bottom: 0;

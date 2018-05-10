@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ScrollContainer from './ScrollContainer';
-import Card from './Card';
 import ListContainer from './ListContainer';
 import List from './List';
 
