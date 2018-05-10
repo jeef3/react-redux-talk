@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import ScrollContainer from './ScrollContainer';
 import Card from './Card';
@@ -33,27 +34,23 @@ const lists = [
   }
 ];
 
+const Container = styled.div`
+  height: 100vh;
+
+  background: #4f5d75;
+
+  display: grid;
+  grid-template-rows: 50px 1fr;
+`;
+Container.displayName = 'Container';
+
 export default () => (
-  <div
-    style={{
-      height: '100%',
-      background: '#4F5D75'
-    }}
-  >
-    <ScrollContainer>
-      <ListContainer>
-        {lists.map(
-          list =>
-            list.cards.length ? (
-              <List>{list.cards.map(card => <Card>{card.title}</Card>)}</List>
-            ) : (
-              <div>Add new list</div>
-            )
-        )}
-        <List>
-          <div>Add new list</div>
-        </List>
-      </ListContainer>
-    </ScrollContainer>
-  </div>
+  <Container>
+    <div>App Header</div>
+
+    <ListContainer>
+      {lists.map(list => <List title={list.name} cards={list.cards} />)}
+      <List />
+    </ListContainer>
+  </Container>
 );

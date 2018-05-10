@@ -1,11 +1,5 @@
 html,
 body {
-  height: 100%;
   margin: 0;
   font-family: 'Lato';
-  border-radius: 4px;
-}
-
-#root {
-  height: 100%;
 }

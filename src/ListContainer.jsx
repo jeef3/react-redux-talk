@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
-  flex: none;
-
-  box-sizing: border-box;
-  height: 100%;
-  padding: 10px;
+  overflow-x: auto;
 
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+
+  > * {
+    flex: 0 0 auto;
+    margin-left: 10px;
+  }
+
+  &::after {
+    content: '';
+    flex: 0 0 10px;
+  }
 `;
 ListContainer.displayName = 'ListContainer';
 
