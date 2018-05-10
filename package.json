@@ -13,6 +13,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "lint": "eslint src/**/*.js*; stylelint src",
+    "server": "json-server --watch db.json",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
+    "json-server": "^0.12.2",
     "prettier": "^1.12.1",
     "stylelint": "^9.2.0",
     "stylelint-config-recommended": "^2.1.0",

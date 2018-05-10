@@ -4,34 +4,6 @@ import styled from 'styled-components';
 import ListContainer from './ListContainer';
 import List from './List';
 
-const lists = [
-  {
-    name: 'TODO',
-    cards: [
-      { title: 'First card' },
-      { title: 'Second card' },
-      { title: 'Third card' },
-      { title: 'Fourth card' },
-      { title: 'Fifth card' },
-      { title: 'Sixth card' },
-      { title: 'Seventh card' },
-      { title: 'Eighth card' },
-      { title: 'Ninth card' },
-      { title: 'Tenth card' },
-      { title: 'Eleventh card' },
-      { title: 'Twelfth card' },
-      { title: 'Thirteenth card' },
-      { title: 'Fourteenth card' },
-      { title: 'Fifteenth card' },
-      { title: 'Sixteenth card' }
-    ]
-  },
-  {
-    name: 'Done',
-    cards: [{ title: 'I did it' }]
-  }
-];
-
 const Container = styled.div`
   height: 100vh;
 
