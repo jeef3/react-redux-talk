@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import ListContainer from './ListContainer';
@@ -14,15 +15,9 @@ const Container = styled.div`
 `;
 Container.displayName = 'Container';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      listOrder: [],
-      lists: {},
-      cards: {}
-    };
 
     this.handleListUpdate = this.handleListUpdate.bind(this);
     this.handleCardUpdate = this.handleCardUpdate.bind(this);
@@ -30,9 +25,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/lists')
-      .then(res => res.json())
-      .then(lists => this.setState({ lists }));
+    this.props.onLoad();
   }
 
   handleListUpdate(list) {
@@ -48,7 +41,7 @@ export default class App extends React.Component {
   handleCardCreate(card) {}
 
   render() {
-    const { lists } = this.state;
+    const { lists } = this.props;
 
     return (
       <Container>
@@ -62,17 +55,34 @@ export default class App extends React.Component {
         </div>
 
         <ListContainer>
-          {lists.map(list => (
-            <List
-              key={list.id}
-              list={list}
-              onListChange={this.handleListUpdate}
-              onCardChange={this.handleCardUpdate}
-              onCreateCard={this.handleCareCreate}
-            />
-          ))}
+          {lists &&
+            lists.map(list => (
+              <List
+                key={list.id}
+                list={list}
+                onListChange={this.handleListUpdate}
+                onCardChange={this.handleCardUpdate}
+                onCreateCard={this.handleCareCreate}
+              />
+            ))}
         </ListContainer>
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  lists: state.listOrder.map(id => ({
+    ...state.lists[id],
+    cards: state.lists[id].cards.map(cid => state.cards[cid])
+  }))
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLoad: () => dispatch({ type: 'LOAD_DATA_REQUESTED' })
+});
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export { App as Component };
+export default AppContainer;
