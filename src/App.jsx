@@ -21,6 +21,10 @@ export default class App extends React.Component {
     this.state = {
       lists: []
     };
+
+    this.handleListUpdate = this.handleListUpdate.bind(this);
+    this.handleCardUpdate = this.handleCardUpdate.bind(this);
+    this.handleCardCreate = this.handleCardCreate.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +32,18 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(lists => this.setState({ lists }));
   }
+
+  handleListUpdate(list) {
+    fetch(`http://localhost:3001/lists/${list.id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'PUT',
+      body: JSON.stringify(list)
+    }).then(res => res.json());
+  }
+
+  handleCardUpdate(card) {}
+
+  handleCardCreate(card) {}
 
   render() {
     const { lists } = this.state;
@@ -48,9 +64,9 @@ export default class App extends React.Component {
             <List
               key={list.id}
               list={list}
-              onListChange={l => console.log('update', l)}
-              onCardChange={c => console.log('update', c)}
-              onCreateCard={c => console.log('create', c)}
+              onListChange={this.handleListUpdate}
+              onCardChange={this.handleCardUpdate}
+              onCreateCard={this.handleCareCreate}
             />
           ))}
         </ListContainer>
