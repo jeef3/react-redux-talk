@@ -45,7 +45,13 @@ export default class App extends React.Component {
 
         <ListContainer>
           {lists.map(list => (
-            <List key={list.id} title={list.name} cards={list.cards} />
+            <List
+              key={list.id}
+              list={list}
+              onListChange={l => console.log('update', l)}
+              onCardChange={c => console.log('update', c)}
+              onCreateCard={c => console.log('create', c)}
+            />
           ))}
         </ListContainer>
       </Container>

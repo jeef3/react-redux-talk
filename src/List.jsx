@@ -56,37 +56,50 @@ const ListTitle = styled.h3`
 `;
 ListTitle.displayName = 'ListTitle';
 
-export default ({ title, cards }) => (
+export default ({ list, onListChange, onCardChange, onCreateCard }) => (
   <Container>
     <Header>
       <EditableText
-        defaultValue={title}
+        defaultValue={list.name}
         render={value => <ListTitle>{value}</ListTitle>}
-        renderEditing={(value, onChange) => (
-          <input defaultValue={value} onChange={onChange} />
+        renderEditing={(value, onKeyDown) => (
+          <input defaultValue={value} onKeyDown={onKeyDown} />
         )}
-        onChange={value => console.log(value)}
+        onChange={name => onListChange({ ...list, name })}
       />
     </Header>
 
-    {cards &&
-      cards.length > 0 && (
+    {list.cards &&
+      list.cards.length > 0 && (
         <List>
-          {cards.map(card => (
+          {list.cards.map(card => (
             <CardWrapper key={card.id}>
               <EditableText
                 defaultValue={card.title}
                 render={value => <Card>{value}</Card>}
-                renderEditing={(value, onChange) => (
-                  <textarea defaultValue={value} onChange={onChange} />
+                renderEditing={(value, onKeyDown) => (
+                  <textarea defaultValue={value} onKeyDown={onKeyDown} />
                 )}
-                onChange={value => console.log(value)}
+                onChange={title => onCardChange({ ...card, title })}
               />
             </CardWrapper>
           ))}
         </List>
       )}
 
-    <Footer>Add card</Footer>
+    <Footer>
+      <EditableText
+        defaultValue=""
+        render={() => <span>Add card</span>}
+        renderEditing={(value, onKeyDown) => (
+          <textarea
+            placeholder="New card..."
+            defaultValue=""
+            onKeyDown={onKeyDown}
+          />
+        )}
+        onChange={onCreateCard}
+      />
+    </Footer>
   </Container>
 );

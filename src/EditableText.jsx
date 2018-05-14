@@ -22,23 +22,20 @@ export default class EditableText extends Component {
     };
 
     this.handleIdleClick = this.handleIdleClick.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   handleIdleClick() {
     this.setState({ editing: true });
   }
 
-  handleKeyUp(e) {
-    if (e.key === 'Enter') {
+  handleKeyDown({ key, shiftKey, currentTarget: { value } }) {
+    if (key === 'Enter' && !shiftKey) {
       this.setState({ editing: false });
       this.props.onChange(this.state.value);
+    } else {
+      this.setState({ value });
     }
-  }
-
-  handleOnChange({ currentTarget: { value } }) {
-    this.setState({ value });
   }
 
   render() {
@@ -49,9 +46,9 @@ export default class EditableText extends Component {
     let props;
 
     if (editing) {
-      El = renderEditing(value, this.handleOnChange);
+      El = renderEditing(value, this.handleKeyDown);
       props = {
-        onKeyUp: this.handleKeyUp
+        onKeyUp: this.handleKeyDown
       };
     } else {
       El = render(value);
