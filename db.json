@@ -1,19 +1,20 @@
 {
-  "lists": [
-    {
-      "id": "1",
+  "listOrder": ["1", "2"],
+  "lists": {
+    "1": {
       "name": "TODO",
-      "cards": [
-        { "id": "1", "title": "First card" },
-        { "id": "2", "title": "Second card" },
-        { "id": "3", "title": "Third card" },
-        { "id": "4", "title": "Fourth card" }
-      ]
+      "cards": ["1", "2", "3", "4"]
     },
-    {
-      "id": "2",
+    "2": {
       "name": "Done",
-      "cards": [{ "id": "5", "title": "I did it" }]
+      "cards": ["5"]
     }
-  ]
+  },
+  "cards": {
+    "1": { "title": "First card" },
+    "2": { "title": "Second card" },
+    "3": { "title": "Third card" },
+    "4": { "title": "Fourth card" },
+    "5": { "title": "Fifth card" }
+  }
 }

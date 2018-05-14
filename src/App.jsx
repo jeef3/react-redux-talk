@@ -19,7 +19,9 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      lists: []
+      listOrder: [],
+      lists: {},
+      cards: {}
     };
 
     this.handleListUpdate = this.handleListUpdate.bind(this);
