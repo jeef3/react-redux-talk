@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Card from './Card';
+import EditableText from './EditableText';
 
 const HEADER_HEIGHT = 40;
 const FOOTER_HEIGHT = 40;
@@ -50,16 +51,37 @@ const Footer = styled.footer`
 `;
 Footer.displayName = 'Footer';
 
+const ListTitle = styled.h3`
+  margin: 0;
+`;
+ListTitle.displayName = 'ListTitle';
+
 export default ({ title, cards }) => (
   <Container>
-    <Header>{title}</Header>
+    <Header>
+      <EditableText
+        defaultValue={title}
+        render={value => <ListTitle>{value}</ListTitle>}
+        renderEditing={(value, onChange) => (
+          <input defaultValue={value} onChange={onChange} />
+        )}
+        onChange={value => console.log(value)}
+      />
+    </Header>
 
     {cards &&
       cards.length > 0 && (
         <List>
           {cards.map(card => (
             <CardWrapper key={card.id}>
-              <Card card={card}>{card.title}</Card>
+              <EditableText
+                defaultValue={card.title}
+                render={value => <Card>{value}</Card>}
+                renderEditing={(value, onChange) => (
+                  <textarea defaultValue={value} onChange={onChange} />
+                )}
+                onChange={value => console.log(value)}
+              />
             </CardWrapper>
           ))}
         </List>
