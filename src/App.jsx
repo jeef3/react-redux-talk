@@ -14,20 +14,41 @@ const Container = styled.div`
 `;
 Container.displayName = 'Container';
 
-export default () => (
-  <Container>
-    <div
-      style={{
-        color: '#2D3142',
-        background: '#EC5766'
-      }}
-    >
-      App Header
-    </div>
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-    <ListContainer>
-      {lists.map(list => <List title={list.name} cards={list.cards} />)}
-      <List />
-    </ListContainer>
-  </Container>
-);
+    this.state = {
+      lists: []
+    };
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3001/lists')
+      .then(res => res.json())
+      .then(lists => this.setState({ lists }));
+  }
+
+  render() {
+    const { lists } = this.state;
+
+    return (
+      <Container>
+        <div
+          style={{
+            color: '#2D3142',
+            background: '#EC5766'
+          }}
+        >
+          App Header
+        </div>
+
+        <ListContainer>
+          {lists.map(list => (
+            <List key={list.id} title={list.name} cards={list.cards} />
+          ))}
+        </ListContainer>
+      </Container>
+    );
+  }
+}

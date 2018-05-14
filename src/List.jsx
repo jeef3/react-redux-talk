@@ -58,10 +58,8 @@ export default ({ title, cards }) => (
       cards.length > 0 && (
         <List>
           {cards.map(card => (
-            <CardWrapper key={card.name}>
-              <Card key={card.name} card={card}>
-                {card.title}
-              </Card>
+            <CardWrapper key={card.id}>
+              <Card card={card}>{card.title}</Card>
             </CardWrapper>
           ))}
         </List>

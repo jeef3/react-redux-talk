@@ -13,7 +13,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "lint": "eslint src/**/*.js*; stylelint src",
-    "server": "json-server --watch db.json",
+    "server": "json-server --watch db.json --port 3001",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
