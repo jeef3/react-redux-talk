@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Card from './Card';
-import EditableText from './EditableText';
+import Card from './atoms/Card';
+import EditableText from './atoms/EditableText';
 
 const HEADER_HEIGHT = 40;
 const FOOTER_HEIGHT = 40;
@@ -60,10 +60,14 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
   <Container>
     <Header>
       <EditableText
-        defaultValue={list.name}
-        render={value => <ListTitle>{value}</ListTitle>}
-        renderEditing={(value, onKeyDown) => (
-          <input defaultValue={value} onKeyDown={onKeyDown} />
+        value={list.name}
+        render={() => <ListTitle>{list.name}</ListTitle>}
+        renderEditing={(editingValue, onKeyDown, onChange) => (
+          <input
+            defaultValue={editingValue}
+            onKeyDown={onKeyDown}
+            onChange={onChange}
+          />
         )}
         onChange={name => onListChange({ ...list, name })}
       />
@@ -75,10 +79,14 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
           {list.cards.map(card => (
             <CardWrapper key={card.id}>
               <EditableText
-                defaultValue={card.title}
-                render={value => <Card>{value}</Card>}
-                renderEditing={(value, onKeyDown) => (
-                  <textarea defaultValue={value} onKeyDown={onKeyDown} />
+                value={card.title}
+                render={() => <Card>{card.title}</Card>}
+                renderEditing={(editingValue, onKeyDown, onChange) => (
+                  <textarea
+                    value={editingValue}
+                    onKeyDown={onKeyDown}
+                    onChange={onChange}
+                  />
                 )}
                 onChange={title => onCardChange({ ...card, title })}
               />
@@ -89,13 +97,14 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
 
     <Footer>
       <EditableText
-        defaultValue=""
+        value=""
         render={() => <span>Add card</span>}
-        renderEditing={(value, onKeyDown) => (
+        renderEditing={(editingValue, onKeyDown, onChange) => (
           <textarea
             placeholder="New card..."
-            defaultValue=""
+            value={editingValue}
             onKeyDown={onKeyDown}
+            onChange={onChange}
           />
         )}
         onChange={onCreateCard}

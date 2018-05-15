@@ -17,41 +17,45 @@ export default class EditableText extends Component {
     super(props);
 
     this.state = {
-      value: props.defaultValue,
+      editingValue: props.value,
       editing: false
     };
 
     this.handleIdleClick = this.handleIdleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleIdleClick() {
     this.setState({ editing: true });
   }
 
-  handleKeyDown({ key, shiftKey, currentTarget: { value } }) {
+  handleKeyDown({ key, shiftKey }) {
     if (key === 'Enter' && !shiftKey) {
       this.setState({ editing: false });
-      this.props.onChange(this.state.value);
-    } else {
-      this.setState({ value });
+      this.props.onChange(this.state.editingValue);
     }
+  }
+
+  handleChange({ currentTarget: { value } }) {
+    console.log('set', value);
+    this.setState({ editingValue: value });
   }
 
   render() {
     const { render, renderEditing } = this.props;
-    const { value, editing } = this.state;
+    const { editingValue, editing } = this.state;
 
     let El;
     let props;
 
     if (editing) {
-      El = renderEditing(value, this.handleKeyDown);
+      El = renderEditing(editingValue, this.handleKeyDown, this.handleChange);
       props = {
         onKeyUp: this.handleKeyDown
       };
     } else {
-      El = render(value);
+      El = render();
       props = {
         onClick: this.handleIdleClick
       };

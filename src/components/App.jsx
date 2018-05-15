@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import ListContainer from './ListContainer';
+import ListContainer from './atoms/ListContainer';
 import List from './List';
 
 const Container = styled.div`
@@ -18,27 +18,11 @@ Container.displayName = 'Container';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.handleListUpdate = this.handleListUpdate.bind(this);
-    this.handleCardUpdate = this.handleCardUpdate.bind(this);
-    this.handleCardCreate = this.handleCardCreate.bind(this);
   }
 
   componentDidMount() {
     this.props.onLoad();
   }
-
-  handleListUpdate(list) {
-    fetch(`http://localhost:3001/lists/${list.id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'PUT',
-      body: JSON.stringify(list)
-    }).then(res => res.json());
-  }
-
-  handleCardUpdate(card) {}
-
-  handleCardCreate(card) {}
 
   render() {
     const { lists } = this.props;
@@ -60,9 +44,9 @@ class App extends React.Component {
               <List
                 key={list.id}
                 list={list}
-                onListChange={this.handleListUpdate}
-                onCardChange={this.handleCardUpdate}
-                onCreateCard={this.handleCareCreate}
+                onListChange={this.props.onListUpdated}
+                onCardChange={this.props.onCardUpdated}
+                onCreateCard={this.props.onCardCreated}
               />
             ))}
         </ListContainer>
@@ -79,7 +63,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: () => dispatch({ type: 'LOAD_DATA_REQUESTED' })
+  onLoad: () => dispatch({ type: 'LOAD_DATA_REQUESTED' }),
+  onListUpdated: list => dispatch({ type: 'UPDATE_LIST', payload: list }),
+  onListCreated: list => dispatch({ type: 'CREATE_LIST', payload: list }),
+  onCardUpdated: card => dispatch({ type: 'UPDATE_CARD', payload: card }),
+  onCardCreated: card => dispatch({ type: 'CREATE_CARD', payload: card })
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
