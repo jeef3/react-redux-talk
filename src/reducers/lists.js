@@ -14,6 +14,18 @@ const lists = (state = {}, action) => {
 
         }
       };
+    case 'CARD_CREATED':
+      return {
+        ...state,
+        [action.payload.listId]: {
+          ...state[action.payload.listId],
+          cards: 
+        }
+      }
+    case 'CARD_CREATE_SUCCEEDED':
+      return {
+        ...state,
+      }
     default:
       return state;
   }

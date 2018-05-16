@@ -21,7 +21,7 @@ export const updateList = async list =>
   }).then(handleRes);
 
 export const createList = async list =>
-  fetch(`${url}/lists/${list.id}`, {
+  fetch(`${url}/lists/`, {
     headers,
     method: 'POST',
     body: JSON.stringify(list)
@@ -35,7 +35,7 @@ export const updateCard = async card =>
   }).then(handleRes);
 
 export const createCard = async card =>
-  fetch(`${url}/cards/${card.id}`, {
+  fetch(`${url}/cards/`, {
     headers,
     method: 'POST',
     body: JSON.stringify(card)

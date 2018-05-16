@@ -107,7 +107,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
             onChange={onChange}
           />
         )}
-        onChange={onCreateCard}
+        onChange={title => onCreateCard({ title }, list.id)}
       />
     </Footer>
   </Container>

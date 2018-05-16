@@ -1,9 +1,9 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import uuid from 'uuid';
 
 import * as Api from './api';
 
 export function* handleDataLoadRequested() {
-  console.log('doing it');
   try {
     const listOrder = yield call(Api.listOrder);
     const lists = yield call(Api.lists);
@@ -51,6 +51,7 @@ export function* handleListCreateRequested(action) {
     const savedList = yield call(Api.createList, listToSave);
     yield put({ type: 'LIST_CREATE_SUCCEEDED', payload: savedList });
   } catch (error) {
+    console.warn(error);
     yield put({ type: 'LIST_CREATE_FAILED', error });
   }
 }
@@ -64,19 +65,35 @@ export function* handleCardUpdateRequested(action) {
     const savedCard = yield call(Api.updateCard, card);
     yield put({ type: 'CARD_SAVE_SUCCEEDED', payload: savedCard });
   } catch (error) {
+    console.warn(error);
     yield put({ type: 'CARD_SAVE_FAILED', error });
   }
 }
 
 export function* handleCardCreateRequested(action) {
-  const card = action.payload;
+  const { card, listId } = action.payload;
 
-  yield put({ type: 'CARD_CREATED', payload: card });
+  const clientId = uuid();
+
+  yield put({ type: 'CARD_CREATED', payload: { card, clientId, listId } });
 
   try {
     const savedCard = yield call(Api.createCard, card);
-    yield put({ type: 'CARD_CREATE_SUCCEEDED', payload: savedCard });
+    yield put({
+      type: 'CARD_CREATE_SUCCEEDED',
+      payload: {
+        card: savedCard,
+        clientId,
+        listId
+      }
+    });
+
+    const list = yield select(state => state.lists[listId]);
+
+    const updatedList = yield call(Api.updateList, list);
+    yield put({ type: 'LIST_UPDATED', payload: updatedList });
   } catch (error) {
+    console.warn(error);
     yield put({ type: 'CARD_CREATE_FAILED', error });
   }
 }

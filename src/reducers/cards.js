@@ -1,3 +1,12 @@
+const swapClientCard = (state, { card, clientId }) => {
+  const nextState = { ...state };
+
+  delete nextState[clientId];
+  nextState[card.id] = card;
+
+  return nextState;
+};
+
 const cards = (state = {}, action) => {
   switch (action.type) {
     case 'DATA_LOAD_SUCCEEDED':
@@ -11,8 +20,13 @@ const cards = (state = {}, action) => {
         ...state,
         [action.payload.id]: action.payload
       };
-    case 'CARD_SAVE_FAILED':
-      return state;
+    case 'CARD_CREATED':
+      return {
+        ...state,
+        [action.payload.clientId]: action.payload.card
+      };
+    case 'CARD_CREATE_SUCCEEDED':
+      return swapClientCard(state, action.payload);
     default:
       return state;
   }
