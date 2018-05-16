@@ -5,6 +5,12 @@ const lists = (state = {}, action) => {
         (p, list) => ({ ...p, [list.id]: list }),
         {}
       );
+    case 'LIST_UPDATED':
+    case 'LIST_SAVE_SUCCEEDED':
+      return {
+        ...state,
+        [action.payload.id]: action.payload
+      };
     default:
       return state;
   }
