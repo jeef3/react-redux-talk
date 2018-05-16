@@ -21,7 +21,7 @@ export const updateList = async list =>
   }).then(handleRes);
 
 export const updateCard = async card =>
-  fetch(`${url}/ards/${card.id}`, {
+  fetch(`${url}/cards/${card.id}`, {
     headers,
     method: 'PUT',
     body: JSON.stringify(card)
