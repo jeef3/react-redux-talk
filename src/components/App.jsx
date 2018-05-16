@@ -16,45 +16,31 @@ const Container = styled.div`
 `;
 Container.displayName = 'Container';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const App = ({ lists, onListUpdated, onCardUpdated, onCardCreated }) => (
+  <Container>
+    <div
+      style={{
+        color: '#2D3142',
+        background: '#EC5766'
+      }}
+    >
+      App Header
+    </div>
 
-  componentDidMount() {
-    this.props.onLoad();
-  }
-
-  render() {
-    const { lists } = this.props;
-
-    return (
-      <Container>
-        <div
-          style={{
-            color: '#2D3142',
-            background: '#EC5766'
-          }}
-        >
-          App Header
-        </div>
-
-        <ListContainer>
-          {lists &&
-            lists.map(list => (
-              <List
-                key={list.id}
-                list={list}
-                onListChange={this.props.onListUpdated}
-                onCardChange={this.props.onCardUpdated}
-                onCreateCard={this.props.onCardCreated}
-              />
-            ))}
-        </ListContainer>
-      </Container>
-    );
-  }
-}
+    <ListContainer>
+      {lists &&
+        lists.map(list => (
+          <List
+            key={list.id}
+            list={list}
+            onListChange={onListUpdated}
+            onCardChange={onCardUpdated}
+            onCreateCard={onCardCreated}
+          />
+        ))}
+    </ListContainer>
+  </Container>
+);
 
 const mapStateToProps = state => ({
   lists: state.listOrder.map(id => ({
@@ -64,7 +50,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: () => dispatch({ type: 'LOAD_DATA_REQUESTED' }),
   onListUpdated: list => dispatch(ListActions.updateList(list)),
   onListCreated: list => dispatch(ListActions.createList(list)),
   onCardUpdated: card => dispatch(CardActions.updateCard(card)),

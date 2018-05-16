@@ -20,10 +20,24 @@ export const updateList = async list =>
     body: JSON.stringify(list)
   }).then(handleRes);
 
+export const createList = async list =>
+  fetch(`${url}/lists/${list.id}`, {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(list)
+  }).then(handleRes);
+
 export const updateCard = async card =>
   fetch(`${url}/cards/${card.id}`, {
     headers,
     method: 'PUT',
+    body: JSON.stringify(card)
+  }).then(handleRes);
+
+export const createCard = async card =>
+  fetch(`${url}/cards/${card.id}`, {
+    headers,
+    method: 'POST',
     body: JSON.stringify(card)
   }).then(handleRes);
 

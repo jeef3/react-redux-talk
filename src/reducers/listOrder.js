@@ -1,6 +1,6 @@
 const listOrder = (state = [], action) => {
   switch (action.type) {
-    case 'LOAD_DATA_RECEIVED':
+    case 'DATA_LOAD_SUCCEEDED':
       return action.payload.listOrder;
     default:
       return state;

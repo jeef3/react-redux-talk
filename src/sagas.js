@@ -2,15 +2,20 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as Api from './api';
 
-export function* handleLoadDataRequested() {
-  const listOrder = yield call(Api.listOrder);
-  const lists = yield call(Api.lists);
-  const cards = yield call(Api.cards);
+export function* handleDataLoadRequested() {
+  console.log('doing it');
+  try {
+    const listOrder = yield call(Api.listOrder);
+    const lists = yield call(Api.lists);
+    const cards = yield call(Api.cards);
 
-  yield put({
-    type: 'LOAD_DATA_RECEIVED',
-    payload: { listOrder, lists, cards }
-  });
+    yield put({
+      type: 'DATA_LOAD_SUCCEEDED',
+      payload: { listOrder, lists, cards }
+    });
+  } catch (error) {
+    yield put({ type: 'DATA_LOAD_FAILED', error });
+  }
 }
 
 export function* handleListUpdateRequested(action) {
@@ -32,6 +37,24 @@ export function* handleListUpdateRequested(action) {
   }
 }
 
+export function* handleListCreateRequested(action) {
+  const list = action.payload;
+
+  const listToSave = {
+    ...list,
+    cards: []
+  };
+
+  yield put({ type: 'LIST_CREATED', payload: listToSave });
+
+  try {
+    const savedList = yield call(Api.createList, listToSave);
+    yield put({ type: 'LIST_CREATE_SUCCEEDED', payload: savedList });
+  } catch (error) {
+    yield put({ type: 'LIST_CREATE_FAILED', error });
+  }
+}
+
 export function* handleCardUpdateRequested(action) {
   const card = action.payload;
 
@@ -45,9 +68,25 @@ export function* handleCardUpdateRequested(action) {
   }
 }
 
+export function* handleCardCreateRequested(action) {
+  const card = action.payload;
+
+  yield put({ type: 'CARD_CREATED', payload: card });
+
+  try {
+    const savedCard = yield call(Api.createCard, card);
+    yield put({ type: 'CARD_CREATE_SUCCEEDED', payload: savedCard });
+  } catch (error) {
+    yield put({ type: 'CARD_CREATE_FAILED', error });
+  }
+}
+
 export function* saga() {
-  yield takeLatest('LOAD_DATA_REQUESTED', handleLoadDataRequested);
+  yield takeLatest('DATA_LOAD_REQUESTED', handleDataLoadRequested);
 
   yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
+  yield takeLatest('LIST_CREATE_REQUESTED', handleListCreateRequested);
+
   yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
+  yield takeLatest('CARD_CREATE_REQUESTED', handleCardCreateRequested);
 }

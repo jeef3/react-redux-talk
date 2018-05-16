@@ -1,6 +1,6 @@
 const lists = (state = {}, action) => {
   switch (action.type) {
-    case 'LOAD_DATA_RECEIVED':
+    case 'DATA_LOAD_SUCCEEDED':
       return action.payload.lists.reduce(
         (p, list) => ({ ...p, [list.id]: list }),
         {}
