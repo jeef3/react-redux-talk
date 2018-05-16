@@ -30,6 +30,7 @@ export default class EditableText extends Component {
     this.setState({ editing: true });
   }
 
+  // FIXME: Don't like having these two
   handleKeyDown({ key, shiftKey }) {
     if (key === 'Enter' && !shiftKey) {
       this.setState({ editing: false });
@@ -38,7 +39,6 @@ export default class EditableText extends Component {
   }
 
   handleChange({ currentTarget: { value } }) {
-    console.log('set', value);
     this.setState({ editingValue: value });
   }
 

@@ -13,20 +13,26 @@ export function* handleLoadDataRequested() {
   });
 }
 
-export function* handleUpdateList(action) {
+export function* handleListUpdateRequested(action) {
   const list = action.payload;
 
-  yield put({ type: 'LIST_UPDATED', payload: list });
+  // Strip card data out
+  const listToSave = {
+    ...list,
+    cards: list.cards.map(card => card.id)
+  };
+
+  yield put({ type: 'LIST_UPDATED', payload: listToSave });
 
   try {
-    const savedList = yield call(Api.updateList, list);
+    const savedList = yield call(Api.updateList, listToSave);
     yield put({ type: 'LIST_SAVE_SUCCEEDED', payload: savedList });
   } catch (error) {
     yield put({ type: 'LIST_SAVE_FAILED', error });
   }
 }
 
-export function* handleUpdateCard(action) {
+export function* handleCardUpdateRequested(action) {
   const card = action.payload;
 
   yield put({ type: 'CARD_UPDATED', payload: card });
@@ -42,6 +48,6 @@ export function* handleUpdateCard(action) {
 export function* saga() {
   yield takeLatest('LOAD_DATA_REQUESTED', handleLoadDataRequested);
 
-  yield takeLatest('UPDATE_LIST', handleUpdateList);
-  yield takeLatest('UPDATE_CARD', handleUpdateCard);
+  yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
+  yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
 }

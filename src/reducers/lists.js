@@ -9,7 +9,10 @@ const lists = (state = {}, action) => {
     case 'LIST_SAVE_SUCCEEDED':
       return {
         ...state,
-        [action.payload.id]: action.payload
+        [action.payload.id]: {
+          ...action.payload
+
+        }
       };
     default:
       return state;

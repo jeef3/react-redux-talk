@@ -1,20 +1,45 @@
 {
   "cards": [
-    { "id": "1", "title": "First card" },
-    { "id": "2", "title": "Second card" },
-    { "id": "3", "title": "Third card" },
-    { "id": "4", "title": "Fourth card" },
-    { "id": "5", "title": "Fifth card" }
+    {
+      "id": "1",
+      "title": "First card"
+    },
+    {
+      "id": "2",
+      "title": "Second card"
+    },
+    {
+      "id": "3",
+      "title": "Third card"
+    },
+    {
+      "id": "4",
+      "title": "Fourth card"
+    },
+    {
+      "id": "5",
+      "title": "Fifth card"
+    }
   ],
-  "listOrder": ["1", "2"],
+  "listOrder": [
+    "1",
+    "2"
+  ],
   "lists": [
     {
-      "cards": ["1", "2", "3", "4"],
+      "cards": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
       "id": "1",
       "name": "TODO"
     },
     {
-      "cards": ["5"],
+      "cards": [
+        "5"
+      ],
       "id": "2",
       "name": "Done"
     }

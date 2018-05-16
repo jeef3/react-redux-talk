@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { Card as CardActions, List as ListActions } from '../actions';
 import ListContainer from './atoms/ListContainer';
 import List from './List';
 
@@ -64,10 +65,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch({ type: 'LOAD_DATA_REQUESTED' }),
-  onListUpdated: list => dispatch({ type: 'UPDATE_LIST', payload: list }),
-  onListCreated: list => dispatch({ type: 'CREATE_LIST', payload: list }),
-  onCardUpdated: card => dispatch({ type: 'UPDATE_CARD', payload: card }),
-  onCardCreated: card => dispatch({ type: 'CREATE_CARD', payload: card })
+  onListUpdated: list => dispatch(ListActions.updateList(list)),
+  onListCreated: list => dispatch(ListActions.createList(list)),
+  onCardUpdated: card => dispatch(CardActions.updateCard(card)),
+  onCardCreated: card => dispatch(CardActions.createCard(card))
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
