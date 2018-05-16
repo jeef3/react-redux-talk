@@ -12,7 +12,6 @@ const cards = (state = {}, action) => {
         [action.payload.id]: action.payload
       };
     case 'CARD_SAVE_FAILED':
-      console.log(action.error.message);
       return state;
     default:
       return state;
