@@ -11,21 +11,8 @@ const lists = (state = {}, action) => {
         ...state,
         [action.payload.id]: {
           ...action.payload
-
         }
       };
-    case 'CARD_CREATED':
-      return {
-        ...state,
-        [action.payload.listId]: {
-          ...state[action.payload.listId],
-          cards: 
-        }
-      }
-    case 'CARD_CREATE_SUCCEEDED':
-      return {
-        ...state,
-      }
     default:
       return state;
   }

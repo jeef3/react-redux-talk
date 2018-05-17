@@ -23,7 +23,10 @@ const cards = (state = {}, action) => {
     case 'CARD_CREATED':
       return {
         ...state,
-        [action.payload.clientId]: action.payload.card
+        [action.payload.clientId]: {
+          ...action.payload.card,
+          id: action.payload.clientId
+        }
       };
     case 'CARD_CREATE_SUCCEEDED':
       return swapClientCard(state, action.payload);

@@ -3,7 +3,7 @@ export const updateCard = card => ({
   payload: card
 });
 
-export const createCard = card => ({
+export const createCard = (card, listId) => ({
   type: 'CARD_CREATE_REQUESTED',
-  payload: card
+  payload: { card, listId }
 });

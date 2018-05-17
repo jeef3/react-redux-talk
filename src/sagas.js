@@ -3,6 +3,17 @@ import uuid from 'uuid';
 
 import * as Api from './api';
 
+export function* updateList(list) {
+  yield put({ type: 'LIST_UPDATED', payload: list });
+
+  try {
+    const savedList = yield call(Api.updateList, list);
+    yield put({ type: 'LIST_SAVE_SUCCEEDED', payload: savedList });
+  } catch (error) {
+    yield put({ type: 'LIST_SAVE_FAILED', error });
+  }
+}
+
 export function* handleDataLoadRequested() {
   try {
     const listOrder = yield call(Api.listOrder);
@@ -21,20 +32,13 @@ export function* handleDataLoadRequested() {
 export function* handleListUpdateRequested(action) {
   const list = action.payload;
 
-  // Strip card data out
+  // Strip card data out, only send ids
   const listToSave = {
     ...list,
     cards: list.cards.map(card => card.id)
   };
 
-  yield put({ type: 'LIST_UPDATED', payload: listToSave });
-
-  try {
-    const savedList = yield call(Api.updateList, listToSave);
-    yield put({ type: 'LIST_SAVE_SUCCEEDED', payload: savedList });
-  } catch (error) {
-    yield put({ type: 'LIST_SAVE_FAILED', error });
-  }
+  yield call(updateList, listToSave);
 }
 
 export function* handleListCreateRequested(action) {
@@ -77,8 +81,10 @@ export function* handleCardCreateRequested(action) {
 
   yield put({ type: 'CARD_CREATED', payload: { card, clientId, listId } });
 
+  let savedCard;
   try {
-    const savedCard = yield call(Api.createCard, card);
+    savedCard = yield call(Api.createCard, card);
+
     yield put({
       type: 'CARD_CREATE_SUCCEEDED',
       payload: {
@@ -87,15 +93,19 @@ export function* handleCardCreateRequested(action) {
         listId
       }
     });
-
-    const list = yield select(state => state.lists[listId]);
-
-    const updatedList = yield call(Api.updateList, list);
-    yield put({ type: 'LIST_UPDATED', payload: updatedList });
   } catch (error) {
     console.warn(error);
     yield put({ type: 'CARD_CREATE_FAILED', error });
   }
+
+  // Add the card to the list
+  const list = yield select(state => state.lists[listId]);
+  const updatedList = {
+    ...list,
+    cards: list.cards.concat(savedCard.id)
+  };
+
+  yield call(updateList, updatedList);
 }
 
 export function* saga() {
