@@ -9,7 +9,7 @@ const FOOTER_HEIGHT = 40;
 
 const Container = styled.div`
   width: 300px;
-  height: calc(100% - 10px);
+  height: 100%;
 
   > * {
     padding: 0 10px;
