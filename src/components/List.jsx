@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import Card from './atoms/Card';
 import EditableText from './atoms/EditableText';
+import ListHeader from './atoms/ListHeader';
+import ListFooter from './atoms/ListFooter';
+import ListTitle from './atoms/ListTitle';
 
 const HEADER_HEIGHT = 40;
 const FOOTER_HEIGHT = 40;
@@ -15,15 +18,9 @@ const Container = styled.div`
   background: #bfc0c0;
 
   display: grid;
-  grid-template-rows: 40px 1fr 40px;
+  grid-template-rows: ${HEADER_HEIGHT}px 1fr ${FOOTER_HEIGHT}px;
 `;
 Container.displayName = 'Container';
-
-const Header = styled.header`
-  padding: 0 10px;
-  line-height: ${HEADER_HEIGHT}px;
-`;
-Header.displayName = 'Header';
 
 const List = styled.ul`
   overflow-y: auto;
@@ -41,20 +38,9 @@ const CardWrapper = styled.li`
 `;
 CardWrapper.displayName = 'CardWrapper';
 
-const Footer = styled.footer`
-  padding: 0 10px;
-  line-height: ${FOOTER_HEIGHT}px;
-`;
-Footer.displayName = 'Footer';
-
-const ListTitle = styled.h3`
-  margin: 0;
-`;
-ListTitle.displayName = 'ListTitle';
-
 export default ({ list, onListChange, onCardChange, onCreateCard }) => (
   <Container>
-    <Header>
+    <ListHeader>
       <EditableText
         value={list.name}
         render={() => <ListTitle>{list.name}</ListTitle>}
@@ -67,7 +53,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
         )}
         onChange={name => onListChange({ ...list, name })}
       />
-    </Header>
+    </ListHeader>
 
     {list.cards &&
       list.cards.length > 0 && (
@@ -91,7 +77,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
         </List>
       )}
 
-    <Footer>
+    <ListFooter>
       <EditableText
         value=""
         render={() => <span>Add card</span>}
@@ -105,6 +91,6 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
         )}
         onChange={title => onCreateCard({ title }, list.id)}
       />
-    </Footer>
+    </ListFooter>
   </Container>
 );
