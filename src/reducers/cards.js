@@ -16,17 +16,10 @@ const cards = (state = {}, action) => {
       );
     case 'CARD_UPDATED':
     case 'CARD_SAVE_SUCCEEDED':
-      return {
-        ...state,
-        [action.payload.id]: action.payload
-      };
     case 'CARD_CREATED':
       return {
         ...state,
-        [action.payload.clientId]: {
-          ...action.payload.card,
-          id: action.payload.clientId
-        }
+        [action.payload.id]: action.payload
       };
     case 'CARD_CREATE_SUCCEEDED':
       return swapClientCard(state, action.payload);

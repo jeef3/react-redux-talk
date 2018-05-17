@@ -79,9 +79,10 @@ export function* handleCardCreateRequested(action) {
 
   const clientId = uuid();
 
-  yield put({ type: 'CARD_CREATED', payload: { card, clientId, listId } });
+  yield put({ type: 'CARD_CREATED', payload: { ...card, id: clientId } });
 
   let savedCard;
+
   try {
     savedCard = yield call(Api.createCard, card);
 
