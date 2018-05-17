@@ -9,27 +9,25 @@ const FOOTER_HEIGHT = 40;
 
 const Container = styled.div`
   width: 300px;
-  height: 100%;
+  max-height: 100%;
 
-  > * {
-    padding: 0 10px;
+  border-radius: 5px;
+  background: #bfc0c0;
 
-    background: #bfc0c0;
-  }
+  display: grid;
+  grid-template-rows: 40px 1fr 40px;
 `;
 Container.displayName = 'Container';
 
 const Header = styled.header`
+  padding: 0 10px;
   line-height: ${HEADER_HEIGHT}px;
-
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 `;
 Header.displayName = 'Header';
 
 const List = styled.ul`
   overflow-y: auto;
-  max-height: calc(100% - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
+  padding: 0 10px;
   margin: 0;
 
   list-style: none;
@@ -44,10 +42,8 @@ const CardWrapper = styled.li`
 CardWrapper.displayName = 'CardWrapper';
 
 const Footer = styled.footer`
+  padding: 0 10px;
   line-height: ${FOOTER_HEIGHT}px;
-
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
 `;
 Footer.displayName = 'Footer';
 

@@ -5,6 +5,7 @@ const ListsWrapper = styled.div`
   padding: 10px;
 
   display: flex;
+  align-items: flex-start;
 
   > * {
     flex: 0 0 auto;
