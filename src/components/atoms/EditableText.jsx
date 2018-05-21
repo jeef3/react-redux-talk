@@ -59,6 +59,7 @@ export default class EditableText extends Component {
     if (key === 'Enter' && !shiftKey) {
       this.setState({ editing: false });
       this.props.onChange(this.state.editingValue);
+      document.removeEventListener('click', this.handleReturnToIdle);
     }
   }
 
