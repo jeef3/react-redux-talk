@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import TextArea from './atoms/TextArea';
 import Card from './atoms/Card';
 import EditableText from './atoms/EditableText';
 import ListHeader from './atoms/ListHeader';
@@ -28,15 +29,19 @@ const List = styled.ul`
   margin: 0;
 
   list-style: none;
-`;
-List.displayName = 'List';
 
-const CardWrapper = styled.li`
-  &:not(:last-child) {
+  ${Card}:not(:last-child) {
     margin-bottom: 10px;
   }
 `;
-CardWrapper.displayName = 'CardWrapper';
+List.displayName = 'List';
+
+const CardTitle = styled.div`
+  padding: 8px;
+
+  cursor: pointer;
+`;
+CardTitle.displayName = 'CardTitle';
 
 export default ({ list, onListChange, onCardChange, onCreateCard }) => (
   <Container>
@@ -59,20 +64,21 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
       list.cards.length > 0 && (
         <List>
           {list.cards.map(card => (
-            <CardWrapper key={card.id}>
+            <Card key={card.id}>
               <EditableText
                 value={card.title}
-                render={() => <Card>{card.title}</Card>}
-                renderEditing={(editingValue, onKeyDown, onChange) => (
-                  <textarea
+                render={() => <CardTitle>{card.title}</CardTitle>}
+                renderEditing={(editingValue, onKeyDown, onChange, ref) => (
+                  <TextArea
                     value={editingValue}
                     onKeyDown={onKeyDown}
                     onChange={onChange}
+                    innerRef={ref}
                   />
                 )}
                 onChange={title => onCardChange({ ...card, title })}
               />
-            </CardWrapper>
+            </Card>
           ))}
         </List>
       )}

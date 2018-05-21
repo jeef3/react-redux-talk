@@ -1,17 +1,11 @@
 import styled from 'styled-components';
 
 const Card = styled.div`
-  height: 50px;
-  padding: 5px;
-  margin-bottom: 10px;
-
   border-radius: 3px;
 
   background: #ffffff;
 
-  :last-child {
-    margin-bottom: 0;
-  }
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 `;
 Card.displayName = 'Card';
 
