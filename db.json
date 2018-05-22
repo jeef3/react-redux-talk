@@ -1,32 +1,28 @@
 {
   "cards": [
     {
-      "id": "1",
-      "title": "First card"
+      "title": "Add drag-and-drop capabilities.",
+      "id": "vUi7cYL"
     },
     {
-      "id": "2",
-      "title": "Second card"
+      "title": "Complete \"Add new list\" functionality.",
+      "id": "pWpwLKk"
     },
     {
-      "id": "3",
-      "title": "Third card"
+      "title": "Complete basic design.",
+      "id": "cAxAywU"
     },
     {
-      "id": "4",
-      "title": "Fourth card"
+      "title": "Add \"Add card\" functionality.",
+      "id": "wvvH73A"
     },
     {
-      "id": "5",
-      "title": "Fifth card"
+      "title": "Add \"Delete card\" functionality.",
+      "id": "gQIia4g"
     },
     {
-      "title": "fdss",
-      "id": "2Wv14xG"
-    },
-    {
-      "title": "another new card",
-      "id": "kSJmCYn"
+      "title": "Refactor into components.",
+      "id": "z1x1zdh"
     }
   ],
   "listOrder": [
@@ -36,22 +32,31 @@
   "lists": [
     {
       "cards": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "2Wv14xG",
-        "kSJmCYn"
+        "vUi7cYL",
+        "pWpwLKk"
       ],
       "id": "1",
       "name": "TODO"
     },
     {
       "cards": [
-        "5"
+        "cAxAywU",
+        "wvvH73A",
+        "gQIia4g",
+        "z1x1zdh"
       ],
       "id": "2",
       "name": "Done"
+    },
+    {
+      "title": "Some new list",
+      "cards": [],
+      "id": "QiKI3jj"
+    },
+    {
+      "title": "Another list",
+      "cards": [],
+      "id": "H_sHwMb"
     }
   ]
 }
