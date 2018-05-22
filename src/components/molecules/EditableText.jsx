@@ -58,6 +58,7 @@ export default class EditableText extends Component {
 
   handleCancel() {
     this.close();
+    this.reset();
   }
 
   open() {
@@ -76,13 +77,19 @@ export default class EditableText extends Component {
   }
 
   commit() {
-    this.close();
     this.props.onChange(this.state.editingValue);
+
+    this.close();
+    this.reset();
   }
 
   close() {
     this.setState({ editing: false });
     document.removeEventListener('click', this.handleReturnToIdle);
+  }
+
+  reset() {
+    this.setState({ editingValue: this.props.value });
   }
 
   render() {
