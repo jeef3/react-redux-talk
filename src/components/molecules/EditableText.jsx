@@ -25,6 +25,10 @@ export default class EditableText extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    this.reset();
+  }
+
   componentWillUnmount() {
     this.close();
   }
@@ -80,7 +84,6 @@ export default class EditableText extends Component {
     this.props.onChange(this.state.editingValue);
 
     this.close();
-    this.reset();
   }
 
   close() {

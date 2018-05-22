@@ -123,14 +123,14 @@ export default ({
               />
             </Card>
             <ButtonBar>
-              <div>
+              <ButtonGroup>
                 <Button primary title="Add card" onClick={onSubmit}>
                   Add Card
                 </Button>
                 <Button secondary title="Cancel adding card" onClick={onCancel}>
                   <Icon icon={faTimes} />
                 </Button>
-              </div>
+              </ButtonGroup>
             </ButtonBar>
           </div>
         )}
