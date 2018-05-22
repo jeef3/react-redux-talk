@@ -5,12 +5,15 @@ const CardTitle = styled.button`
   margin: 0;
 
   cursor: pointer;
-  text-align: left;
+
   color: inherit;
   font: inherit;
 
+  text-align: left;
+
   border: 0;
   border-radius: 3px;
+
   background: rgba(0, 0, 0, 0.1);
 `;
 CardTitle.displayName = 'CardTitle';

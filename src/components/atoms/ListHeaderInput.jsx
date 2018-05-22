@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
-const ListHeaderInput = styled.input`
+import ListTitle from './ListTitle';
+
+const ListHeaderInput = ListTitle.extend`
   box-sizing: border-box;
   width: 100%;
   padding: 8px;
 
   font: inherit;
 
-  background: none;
   border: 0;
+
+  background: none;
 `;
 ListHeaderInput.displayName = 'ListHeaderInput';
 

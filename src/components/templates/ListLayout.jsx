@@ -12,6 +12,7 @@ const Container = styled.div`
   max-height: 100%;
 
   border-radius: 5px;
+
   background: #bfc0c0;
 
   display: grid;

@@ -9,7 +9,9 @@ const CardTextArea = styled.textarea`
   font: inherit;
 
   resize: none;
+
   border: 0;
+
   background: none;
 `;
 CardTextArea.displayName = 'CardTextArea';
