@@ -16,7 +16,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
       <EditableText
         value={list.name}
         render={() => <ListTitle>{list.name}</ListTitle>}
-        renderEditing={(editingValue, onKeyDown, onChange, ref) => (
+        renderEditing={({ editingValue, onKeyDown, onChange, ref }) => (
           <ListHeaderInput
             defaultValue={editingValue}
             onKeyDown={onKeyDown}
@@ -32,7 +32,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
         <EditableText
           value={card.title}
           render={() => <CardTitle>{card.title}</CardTitle>}
-          renderEditing={(editingValue, onKeyDown, onChange, ref) => (
+          renderEditing={({ editingValue, onKeyDown, onChange, ref }) => (
             <CardTextArea
               value={editingValue}
               onKeyDown={onKeyDown}
@@ -46,18 +46,30 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
     )}
     renderFooter={() => (
       <EditableText
+        defaultEditing
         value=""
         render={() => <AddCardButton>Add card</AddCardButton>}
-        renderEditing={(editingValue, onKeyDown, onChange, ref) => (
-          <Card>
-            <CardTextArea
-              placeholder="Enter a title for this card..."
-              value={editingValue}
-              onKeyDown={onKeyDown}
-              onChange={onChange}
-              innerRef={ref}
-            />
-          </Card>
+        renderEditing={({
+          editingValue,
+          onKeyDown,
+          onChange,
+          onSubmit,
+          onCancel,
+          ref
+        }) => (
+          <div>
+            <Card>
+              <CardTextArea
+                placeholder="Enter a title for this card..."
+                value={editingValue}
+                onKeyDown={onKeyDown}
+                onChange={onChange}
+                innerRef={ref}
+              />
+            </Card>
+            <button onClick={onSubmit}>Add Card</button>
+            <button onClick={onCancel}>X</button>
+          </div>
         )}
         onChange={title => onCreateCard({ title }, list.id)}
       />

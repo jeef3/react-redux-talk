@@ -15,6 +15,14 @@ export default class EditableText extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleReturnToIdle = this.handleReturnToIdle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.defaultEditing) {
+      this.open();
+    }
   }
 
   handleReturnToIdle({ target }) {
@@ -22,12 +30,33 @@ export default class EditableText extends Component {
       return;
     }
 
-    this.setState({ editing: false });
-
-    document.removeEventListener('click', this.handleReturnToIdle);
+    this.close();
   }
 
   handleIdleClick() {
+    this.open();
+  }
+
+  // FIXME: Don't like having these two
+  handleKeyDown({ key, shiftKey }) {
+    if (key === 'Enter' && !shiftKey) {
+      this.commit();
+    }
+  }
+
+  handleChange({ currentTarget: { value } }) {
+    this.setState({ editingValue: value });
+  }
+
+  handleSubmit() {
+    this.commit();
+  }
+
+  handleCancel() {
+    this.close();
+  }
+
+  open() {
     this.setState({ editing: true }, () => {
       const editor = this.elemRef.current;
 
@@ -37,22 +66,19 @@ export default class EditableText extends Component {
 
       editor.focus();
       editor.select();
-
-      document.addEventListener('click', this.handleReturnToIdle);
     });
+
+    document.addEventListener('click', this.handleReturnToIdle);
   }
 
-  // FIXME: Don't like having these two
-  handleKeyDown({ key, shiftKey }) {
-    if (key === 'Enter' && !shiftKey) {
-      this.setState({ editing: false });
-      this.props.onChange(this.state.editingValue);
-      document.removeEventListener('click', this.handleReturnToIdle);
-    }
+  commit() {
+    this.close();
+    this.props.onChange(this.state.editingValue);
   }
 
-  handleChange({ currentTarget: { value } }) {
-    this.setState({ editingValue: value });
+  close() {
+    this.setState({ editing: false });
+    document.removeEventListener('click', this.handleReturnToIdle);
   }
 
   render() {
@@ -63,17 +89,21 @@ export default class EditableText extends Component {
     let props;
 
     if (editing) {
-      El = renderEditing(
+      El = renderEditing({
         editingValue,
-        this.handleKeyDown,
-        this.handleChange,
-        this.elemRef
-      );
+        onKeyDown: this.handleKeyDown,
+        onChange: this.handleChange,
+        onSubmit: this.handleSubmit,
+        onCancel: this.handleCancel,
+        ref: this.elemRef
+      });
+
       props = {
         onKeyUp: this.handleKeyDown
       };
     } else {
       El = render();
+
       props = {
         onClick: this.handleIdleClick
       };
