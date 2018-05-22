@@ -13,6 +13,10 @@ const CardTextArea = styled.textarea`
   border: 0;
 
   background: none;
+
+  ::placeholder {
+    font-style: italic;
+  }
 `;
 CardTextArea.displayName = 'CardTextArea';
 

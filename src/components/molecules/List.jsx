@@ -51,7 +51,7 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
         renderEditing={(editingValue, onKeyDown, onChange, ref) => (
           <Card>
             <CardTextArea
-              placeholder="New card..."
+              placeholder="Enter a title for this card..."
               value={editingValue}
               onKeyDown={onKeyDown}
               onChange={onChange}
