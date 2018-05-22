@@ -1,6 +1,10 @@
 import React from 'react';
+import Icon from '@fortawesome/react-fontawesome';
+import { faTimes, faTrash } from '@fortawesome/fontawesome-free-solid';
 
 import AddCardButton from '../atoms/AddCardButton';
+import Button from '../atoms/Button';
+import ButtonBar from '../atoms/ButtonBar';
 import Card from '../atoms/Card';
 import CardTextArea from '../atoms/CardTextArea';
 import CardTitle from '../atoms/CardTitle';
@@ -9,7 +13,13 @@ import ListHeaderInput from '../atoms/ListHeaderInput';
 import ListLayout from '../templates/ListLayout';
 import EditableText from './EditableText';
 
-export default ({ list, onListChange, onCardChange, onCreateCard }) => (
+export default ({
+  list,
+  onListChanged,
+  onCardChanged,
+  onCardCreated,
+  onCardDeleted
+}) => (
   <ListLayout
     list={list}
     renderHeader={() => (
@@ -24,25 +34,49 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
             innerRef={ref}
           />
         )}
-        onChange={name => onListChange({ ...list, name })}
+        onChange={name => onListChanged({ ...list, name })}
       />
     )}
     renderCard={card => (
-      <Card>
-        <EditableText
-          value={card.title}
-          render={() => <CardTitle>{card.title}</CardTitle>}
-          renderEditing={({ editingValue, onKeyDown, onChange, ref }) => (
-            <CardTextArea
-              value={editingValue}
-              onKeyDown={onKeyDown}
-              onChange={onChange}
-              innerRef={ref}
-            />
-          )}
-          onChange={title => onCardChange({ ...card, title })}
-        />
-      </Card>
+      <EditableText
+        value={card.title}
+        render={() => (
+          <Card>
+            <CardTitle>{card.title}</CardTitle>
+          </Card>
+        )}
+        renderEditing={({
+          editingValue,
+          onKeyDown,
+          onChange,
+          onSubmit,
+          onCancel,
+          ref
+        }) => (
+          <div>
+            <Card>
+              <CardTextArea
+                value={editingValue}
+                onKeyDown={onKeyDown}
+                onChange={onChange}
+                innerRef={ref}
+              />
+            </Card>
+            <ButtonBar>
+              <Button primary onClick={onSubmit}>
+                Save
+              </Button>
+              <Button secondary onClick={onCancel}>
+                <Icon icon={faTimes} />
+              </Button>
+              <Button secondary onClick={() => onCardDeleted(card)}>
+                <Icon icon={faTrash} />
+              </Button>
+            </ButtonBar>
+          </div>
+        )}
+        onChange={title => onCardChanged({ ...card, title })}
+      />
     )}
     renderFooter={() => (
       <EditableText
@@ -67,11 +101,19 @@ export default ({ list, onListChange, onCardChange, onCreateCard }) => (
                 innerRef={ref}
               />
             </Card>
-            <button onClick={onSubmit}>Add Card</button>
-            <button onClick={onCancel}>X</button>
+            <ButtonBar>
+              <div>
+                <Button primary onClick={onSubmit}>
+                  Add Card
+                </Button>
+                <Button secondary onClick={onCancel}>
+                  <Icon icon={faTimes} />
+                </Button>
+              </div>
+            </ButtonBar>
           </div>
         )}
-        onChange={title => onCreateCard({ title }, list.id)}
+        onChange={title => onCardCreated({ title }, list.id)}
       />
     )}
   />

@@ -22,15 +22,22 @@ const Container = styled.div`
 `;
 Container.displayName = 'Board_Container';
 
-const Board = ({ lists, onListUpdated, onCardUpdated, onCardCreated }) => (
+const Board = ({
+  lists,
+  onListUpdated,
+  onCardUpdated,
+  onCardCreated,
+  onCardDeleted
+}) => (
   <Container>
     {lists.map(list => (
       <List
         key={list.id}
         list={list}
-        onListChange={onListUpdated}
-        onCardChange={onCardUpdated}
-        onCreateCard={onCardCreated}
+        onListChanged={onListUpdated}
+        onCardChanged={onCardUpdated}
+        onCardCreated={onCardCreated}
+        onCardDeleted={onCardDeleted}
       />
     ))}
   </Container>
@@ -48,7 +55,8 @@ const mapDispatchToProps = dispatch => ({
   onListCreated: list => dispatch(ListActions.createList(list)),
   onCardUpdated: card => dispatch(CardActions.updateCard(card)),
   onCardCreated: (card, listId) =>
-    dispatch(CardActions.createCard(card, listId))
+    dispatch(CardActions.createCard(card, listId)),
+  onCardDeleted: card => dispatch(CardActions.deleteCard(card))
 });
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);
