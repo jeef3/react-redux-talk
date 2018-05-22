@@ -60,6 +60,20 @@ export function* handleListCreateRequested(action) {
   }
 }
 
+export function* handleListDeleteRequested(action) {
+  const list = action.payload;
+
+  yield put({ type: 'LIST_DELETED', payload: list });
+
+  try {
+    yield call(Api.deleteList, list);
+    yield put({ type: 'LIST_DELETE_SUCCEEDED', payload: list });
+  } catch (error) {
+    console.warn(error);
+    yield put({ type: 'LIST_DELETE_FAILED', error });
+  }
+}
+
 export function* handleCardUpdateRequested(action) {
   const card = action.payload;
 
@@ -109,12 +123,44 @@ export function* handleCardCreateRequested(action) {
   yield call(updateList, updatedList);
 }
 
+export function* handleCardDeleteRequested(action) {
+  const card = action.payload;
+
+  // Remove the card from its list
+  const updatedList = yield select(state => {
+    const listId = Object.keys(state.lists).find(
+      key => state.lists[key].cards.indexOf(card.id) !== -1
+    );
+
+    const list = state.lists[listId];
+
+    return {
+      ...list,
+      cards: list.cards.filter(id => id !== card.id)
+    };
+  });
+
+  yield call(updateList, updatedList);
+
+  yield put({ type: 'CARD_DELETED', payload: card });
+
+  try {
+    yield call(Api.deleteCard, card);
+    yield put({ type: 'CARD_DELETE_SUCCEEDED', payload: card });
+  } catch (error) {
+    console.warn(error);
+    yield put({ type: 'CARD_DELETE_FAILED', error });
+  }
+}
+
 export function* saga() {
   yield takeLatest('DATA_LOAD_REQUESTED', handleDataLoadRequested);
 
   yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
   yield takeLatest('LIST_CREATE_REQUESTED', handleListCreateRequested);
+  yield takeLatest('LIST_DELETE_REQUESTED', handleListDeleteRequested);
 
   yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
   yield takeLatest('CARD_CREATE_REQUESTED', handleCardCreateRequested);
+  yield takeLatest('CARD_DELETE_REQUESTED', handleCardDeleteRequested);
 }

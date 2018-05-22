@@ -80,7 +80,6 @@ export default ({
     )}
     renderFooter={() => (
       <EditableText
-        defaultEditing
         value=""
         render={() => <AddCardButton>Add card</AddCardButton>}
         renderEditing={({

@@ -27,6 +27,12 @@ export const createList = async list =>
     body: JSON.stringify(list)
   }).then(handleRes);
 
+export const deleteList = async list =>
+  fetch(`${url}/lists/${list.id}`, {
+    headers,
+    method: 'DELETE'
+  }).then(handleRes);
+
 export const updateCard = async card =>
   fetch(`${url}/cards/${card.id}`, {
     headers,
@@ -39,6 +45,12 @@ export const createCard = async card =>
     headers,
     method: 'POST',
     body: JSON.stringify(card)
+  }).then(handleRes);
+
+export const deleteCard = async list =>
+  fetch(`${url}/cards/${list.id}`, {
+    headers,
+    method: 'DELETE'
   }).then(handleRes);
 
 export const reorderLists = async order =>

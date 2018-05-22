@@ -8,6 +8,11 @@ export const createList = list => ({
   payload: list
 });
 
+export const deleteList = list => ({
+  type: 'LIST_DELETE_REQUESTED',
+  payload: list
+});
+
 export const reorderList = listOrder => ({
   type: 'LIST_REORDER_REQUESTED',
   payload: listOrder

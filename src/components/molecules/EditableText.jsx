@@ -25,6 +25,10 @@ export default class EditableText extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.close();
+  }
+
   handleReturnToIdle({ target }) {
     if (this.elemRef.current.contains(target)) {
       return;
