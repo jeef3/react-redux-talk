@@ -16,7 +16,7 @@ import EditableText from './EditableText';
 
 const nl2br = text =>
   text.split('\n').map(line => (
-    <span>
+    <span key={line}>
       {line}
       <br />
     </span>
