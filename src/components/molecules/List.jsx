@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@fortawesome/react-fontawesome';
-import { faTimes, faTrash } from '@fortawesome/fontawesome-free-solid';
+import { faPlus, faTimes, faTrash } from '@fortawesome/fontawesome-free-solid';
 
 import AddCardButton from '../atoms/AddCardButton';
 import Button from '../atoms/Button';
@@ -91,7 +91,11 @@ export default ({
     renderFooter={() => (
       <EditableText
         value=""
-        render={() => <AddCardButton>Add card</AddCardButton>}
+        render={() => (
+          <AddCardButton>
+            <Icon icon={faPlus} /> Add card
+          </AddCardButton>
+        )}
         renderEditing={({
           editingValue,
           onKeyDown,

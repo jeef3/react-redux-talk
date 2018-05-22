@@ -1,9 +1,15 @@
+import { connect } from 'react-redux';
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import Icon from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/fontawesome-free-solid';
 
 import { List as ListActions, Card as CardActions } from '../../actions';
+import EditableText from '../molecules/EditableText';
 import List from '../molecules/List';
+import ListHeaderInput from '../atoms/ListHeaderInput';
+import ListLayout from '../templates/ListLayout';
+import ListTitle from '../atoms/ListTitle';
 
 const Container = styled.div`
   overflow-x: auto;
@@ -25,6 +31,7 @@ Container.displayName = 'Board_Container';
 const Board = ({
   lists,
   onListUpdated,
+  onListCreated,
   onCardUpdated,
   onCardCreated,
   onCardDeleted
@@ -40,6 +47,28 @@ const Board = ({
         onCardDeleted={onCardDeleted}
       />
     ))}
+
+    <ListLayout
+      renderHeader={() => (
+        <EditableText
+          value=""
+          render={() => (
+            <ListTitle>
+              <Icon icon={faPlus} /> Add new list
+            </ListTitle>
+          )}
+          renderEditing={({ editingValue, onKeyDown, onChange, ref }) => (
+            <ListHeaderInput
+              defaultValue={editingValue}
+              onKeyDown={onKeyDown}
+              onChange={onChange}
+              innerRef={ref}
+            />
+          )}
+          onChange={title => onListCreated({ title })}
+        />
+      )}
+    />
   </Container>
 );
 
