@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const TextArea = styled.textarea`
+const CardTextArea = styled.textarea`
   box-sizing: border-box;
   width: 100%;
   padding: 8px;
@@ -12,6 +12,6 @@ const TextArea = styled.textarea`
   border: 0;
   background: none;
 `;
-TextArea.displayName = 'TextArea';
+CardTextArea.displayName = 'CardTextArea';
 
-export default TextArea;
+export default CardTextArea;

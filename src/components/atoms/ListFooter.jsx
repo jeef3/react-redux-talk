@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const ListFooter = styled.footer`
-  padding: 0 10px;
+  padding: 10px;
 
   display: flex;
   flex-direction: column;

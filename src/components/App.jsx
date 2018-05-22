@@ -1,14 +1,11 @@
 import React from 'react';
 
 import AppLayout from './templates/AppLayout';
-import Header from './molecules/Header';
-import ListsContainer from './ListsContainer';
+import Board from './organisms/Board';
+import TopBar from './organisms/TopBar';
 
 const App = () => (
-  <AppLayout
-    renderHeader={() => <Header />}
-    renderLists={() => <ListsContainer />}
-  />
+  <AppLayout renderHeader={() => <TopBar />} renderBoard={() => <Board />} />
 );
 
 export default App;

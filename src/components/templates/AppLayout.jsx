@@ -11,10 +11,10 @@ const Container = styled.div`
 `;
 Container.displayName = 'AppLayout_Container';
 
-const AppLayout = ({ renderHeader, renderLists }) => (
+const AppLayout = ({ renderHeader, renderBoard }) => (
   <Container>
     {renderHeader()}
-    {renderLists()}
+    {renderBoard()}
   </Container>
 );
 

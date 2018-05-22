@@ -1,17 +1,29 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { List as ListActions, Card as CardActions } from '../actions';
-import ListsWrapper from './atoms/ListsWrapper';
-import List from './List';
+import { List as ListActions, Card as CardActions } from '../../actions';
+import List from '../molecules/List';
 
-const ListsContainer = ({
-  lists,
-  onListUpdated,
-  onCardUpdated,
-  onCardCreated
-}) => (
-  <ListsWrapper>
+const Container = styled.div`
+  overflow-x: auto;
+  padding: 10px;
+
+  display: flex;
+  align-items: flex-start;
+
+  > * {
+    flex: 0 0 auto;
+  }
+
+  > :not(:last-child) {
+    margin-right: 10px;
+  }
+`;
+Container.displayName = 'Board_Container';
+
+const Board = ({ lists, onListUpdated, onCardUpdated, onCardCreated }) => (
+  <Container>
     {lists.map(list => (
       <List
         key={list.id}
@@ -21,7 +33,7 @@ const ListsContainer = ({
         onCreateCard={onCardCreated}
       />
     ))}
-  </ListsWrapper>
+  </Container>
 );
 
 const mapStateToProps = state => ({
@@ -39,9 +51,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(CardActions.createCard(card, listId))
 });
 
-const ListsContainerContainer = connect(mapStateToProps, mapDispatchToProps)(
-  ListsContainer
-);
+const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);
 
-export { ListsContainer as Component };
-export default ListsContainerContainer;
+export { Board as Component };
+export default BoardContainer;

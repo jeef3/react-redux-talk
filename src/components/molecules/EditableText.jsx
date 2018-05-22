@@ -1,16 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
-const Input = styled.input.attrs({
-  type: 'text'
-})`
-  padding: 0;
-  margin: 0;
-  font: inherit;
-
-  border: 0;
-`;
-Input.displayName = 'Input';
 
 export default class EditableText extends Component {
   constructor(props) {
