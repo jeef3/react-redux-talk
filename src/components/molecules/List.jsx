@@ -14,6 +14,14 @@ import ListHeaderInput from '../atoms/ListHeaderInput';
 import ListLayout from '../templates/ListLayout';
 import EditableText from './EditableText';
 
+const nl2br = text =>
+  text.split('\n').map(line => (
+    <span>
+      {line}
+      <br />
+    </span>
+  ));
+
 export default ({
   list,
   onListChanged,
@@ -43,7 +51,7 @@ export default ({
         value={card.title}
         render={() => (
           <Card>
-            <CardTitle>{card.title}</CardTitle>
+            <CardTitle>{nl2br(card.title)}</CardTitle>
           </Card>
         )}
         renderEditing={({
