@@ -91,6 +91,11 @@ export function* handleCardUpdateRequested(action) {
 export function* handleCardCreateRequested(action) {
   const { card, listId } = action.payload;
 
+  if (!card.title) {
+    yield put({ type: 'CARD_CREATE_FAILED', error: 'Empty title' });
+    return;
+  }
+
   const clientId = uuid();
 
   yield put({ type: 'CARD_CREATED', payload: { ...card, id: clientId } });

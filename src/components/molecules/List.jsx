@@ -5,6 +5,7 @@ import { faTimes, faTrash } from '@fortawesome/fontawesome-free-solid';
 import AddCardButton from '../atoms/AddCardButton';
 import Button from '../atoms/Button';
 import ButtonBar from '../atoms/ButtonBar';
+import ButtonGroup from '../atoms/ButtonGroup';
 import Card from '../atoms/Card';
 import CardTextArea from '../atoms/CardTextArea';
 import CardTitle from '../atoms/CardTitle';
@@ -63,15 +64,24 @@ export default ({
               />
             </Card>
             <ButtonBar>
-              <Button primary onClick={onSubmit}>
-                Save
-              </Button>
-              <Button secondary onClick={onCancel}>
-                <Icon icon={faTimes} />
-              </Button>
-              <Button secondary onClick={() => onCardDeleted(card)}>
-                <Icon icon={faTrash} />
-              </Button>
+              <ButtonGroup>
+                <Button primary title="Save changes" onClick={onSubmit}>
+                  Save
+                </Button>
+                <Button secondary title="Cancel changes" onClick={onCancel}>
+                  <Icon icon={faTimes} />
+                </Button>
+              </ButtonGroup>
+
+              <ButtonGroup>
+                <Button
+                  secondary
+                  title="Delete card"
+                  onClick={() => onCardDeleted(card)}
+                >
+                  <Icon icon={faTrash} />
+                </Button>
+              </ButtonGroup>
             </ButtonBar>
           </div>
         )}
@@ -102,10 +112,10 @@ export default ({
             </Card>
             <ButtonBar>
               <div>
-                <Button primary onClick={onSubmit}>
+                <Button primary title="Add card" onClick={onSubmit}>
                   Add Card
                 </Button>
-                <Button secondary onClick={onCancel}>
+                <Button secondary title="Cancel adding card" onClick={onCancel}>
                   <Icon icon={faTimes} />
                 </Button>
               </div>
