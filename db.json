@@ -5,24 +5,28 @@
       "id": "vUi7cYL"
     },
     {
-      "title": "Complete \"Add new list\" functionality.",
+      "title": "Add new list",
       "id": "pWpwLKk"
     },
     {
-      "title": "Complete basic design.",
+      "title": "Basic app design.",
       "id": "cAxAywU"
     },
     {
-      "title": "Add \"Add card\" functionality.",
+      "title": "Add new card",
       "id": "wvvH73A"
     },
     {
-      "title": "Add \"Delete card\" functionality.",
+      "title": "Delete card",
       "id": "gQIia4g"
     },
     {
-      "title": "Refactor into components.",
-      "id": "z1x1zdh"
+      "title": "Edit card",
+      "id": "5ajWyGC"
+    },
+    {
+      "title": "Rename list",
+      "id": "_CfgbdT"
     }
   ],
   "listOrder": [
@@ -43,7 +47,8 @@
         "cAxAywU",
         "wvvH73A",
         "gQIia4g",
-        "z1x1zdh"
+        "5ajWyGC",
+        "_CfgbdT"
       ],
       "id": "2",
       "name": "Done"
