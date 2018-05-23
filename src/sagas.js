@@ -1,4 +1,11 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  put,
+  select,
+  takeEvery,
+  takeLatest
+} from 'redux-saga/effects';
 import uuid from 'uuid';
 
 import * as Api from './api';
@@ -37,9 +44,11 @@ export function* handleDataLoadRequested() {
   yield put(Common.loadDataStarted());
 
   try {
-    const listOrder = yield call(Api.listOrder);
-    const lists = yield call(Api.lists);
-    const cards = yield call(Api.cards);
+    const [listOrder, lists, cards] = yield all([
+      Api.listOrder(),
+      Api.lists(),
+      Api.cards()
+    ]);
 
     yield put(Common.loadDataSucceeded({ listOrder, lists, cards }));
   } catch (error) {
