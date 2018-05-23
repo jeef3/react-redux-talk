@@ -6,6 +6,7 @@ import { Common, Card, List } from './actions';
 
 export function* updateList(list) {
   yield put(List.saveStarted({ list }));
+  yield put(List.updated({ list }));
 
   try {
     const savedList = yield call(Api.updateList, list);
