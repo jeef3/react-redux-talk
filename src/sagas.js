@@ -2,17 +2,34 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import uuid from 'uuid';
 
 import * as Api from './api';
-import { Common } from './actions';
+import { Common, Card, List } from './actions';
 
 export function* updateList(list) {
-  yield put({ type: 'LIST_UPDATED', payload: list });
+  yield put(List.saveStarted({ list }));
 
   try {
     const savedList = yield call(Api.updateList, list);
-    yield put({ type: 'LIST_SAVE_SUCCEEDED', payload: savedList });
+    yield put(List.saveSucceeded({ list: savedList }));
   } catch (error) {
-    yield put({ type: 'LIST_SAVE_FAILED', error });
+    yield put(List.saveFailed({ list, error }));
   }
+}
+
+export function* addCardToList(card, listId) {
+  const list = yield select(state => state.lists[listId]);
+
+  const existingId = list.cards.indexOf(card.id);
+
+  if (existingId !== -1) {
+    return;
+  }
+
+  const updatedList = {
+    ...list,
+    cards: list.cards.concat(card.id)
+  };
+
+  yield put(List.updated({ list: updatedList }));
 }
 
 export function* handleDataLoadRequested() {
@@ -25,12 +42,12 @@ export function* handleDataLoadRequested() {
 
     yield put(Common.loadDataSucceeded({ listOrder, lists, cards }));
   } catch (error) {
-    yield put({ type: 'DATA_LOAD_FAILED', error });
+    yield put(Common.loadDataFailed({ error }));
   }
 }
 
 export function* handleListUpdateRequested(action) {
-  const list = action.payload;
+  const { list } = action.payload;
 
   // Strip card data out, only send ids
   const listToSave = {
@@ -42,97 +59,86 @@ export function* handleListUpdateRequested(action) {
 }
 
 export function* handleListCreateRequested(action) {
-  const list = action.payload;
+  const { list } = action.payload;
 
   const listToSave = {
     ...list,
     cards: []
   };
 
-  yield put({ type: 'LIST_CREATED', payload: listToSave });
+  yield put(List.saveStarted({ list: listToSave }));
 
   try {
     const savedList = yield call(Api.createList, listToSave);
-    yield put({ type: 'LIST_CREATE_SUCCEEDED', payload: savedList });
+    yield put(List.saveSucceeded({ list: savedList }));
   } catch (error) {
-    console.warn(error);
-    yield put({ type: 'LIST_CREATE_FAILED', error });
+    yield put(List.saveFailed({ list: listToSave, error }));
   }
 }
 
-export function* handleListDeleteRequested(action) {
-  const list = action.payload;
+export function* handleListDestoryRequested(action) {
+  const { list } = action.payload;
 
-  yield put({ type: 'LIST_DELETED', payload: list });
+  yield put(List.destroyStarted({ list }));
 
   try {
     yield call(Api.deleteList, list);
-    yield put({ type: 'LIST_DELETE_SUCCEEDED', payload: list });
+    yield put(List.destroySucceeded({ list }));
   } catch (error) {
-    console.warn(error);
-    yield put({ type: 'LIST_DELETE_FAILED', error });
+    yield put(List.destroyFailed({ list }));
   }
 }
 
 export function* handleCardUpdateRequested(action) {
-  const card = action.payload;
+  const { card } = action.payload;
 
-  yield put({ type: 'CARD_UPDATED', payload: card });
+  yield put(Card.saveStarted({ card }));
 
   try {
     const savedCard = yield call(Api.updateCard, card);
-    yield put({ type: 'CARD_SAVE_SUCCEEDED', payload: savedCard });
+    yield put(Card.saveSucceeded({ card: savedCard }));
   } catch (error) {
-    console.warn(error);
-    yield put({ type: 'CARD_SAVE_FAILED', error });
+    yield put(Card.saveFailed({ card, error }));
   }
 }
 
 export function* handleCardCreateRequested(action) {
   const { card, listId } = action.payload;
 
+  const clientId = uuid();
+  const newCard = {
+    ...card,
+    id: clientId,
+    clientId
+  };
+
   if (!card.title) {
-    yield put({ type: 'CARD_CREATE_FAILED', error: 'Empty title' });
+    yield put(Card.saveFailed({ card: newCard, listId, error: 'Empty title' }));
+
     return;
   }
 
-  const clientId = uuid();
-
-  yield put({ type: 'CARD_CREATED', payload: { ...card, id: clientId } });
-
-  let savedCard;
+  yield put(Card.saveStarted({ card: newCard, listId }));
+  yield call(addCardToList, newCard, listId);
 
   try {
-    savedCard = yield call(Api.createCard, card);
+    const savedCard = yield call(Api.createCard, card);
 
-    yield put({
-      type: 'CARD_CREATE_SUCCEEDED',
-      payload: {
-        card: savedCard,
-        clientId,
-        listId
-      }
-    });
+    yield put(Card.saveSucceeded({ card: { ...savedCard, clientId }, listId }));
+
+    const list = yield select(state => state.lists[listId]);
+    yield call(updateList, list);
   } catch (error) {
-    console.warn(error);
-    yield put({ type: 'CARD_CREATE_FAILED', error });
+    yield put(Card.saveFailed({ card: newCard, listId, error }));
   }
-
-  // Add the card to the list
-  const list = yield select(state => state.lists[listId]);
-  const updatedList = {
-    ...list,
-    cards: list.cards.concat(savedCard.id)
-  };
-
-  yield call(updateList, updatedList);
 }
 
-export function* handleCardDeleteRequested(action) {
-  const card = action.payload;
+export function* handleCardDestroyRequested(action) {
+  const { card } = action.payload;
 
   // Remove the card from its list
   const updatedList = yield select(state => {
+    // Find the list that has this card
     const listId = Object.keys(state.lists).find(
       key => state.lists[key].cards.indexOf(card.id) !== -1
     );
@@ -147,25 +153,24 @@ export function* handleCardDeleteRequested(action) {
 
   yield call(updateList, updatedList);
 
-  yield put({ type: 'CARD_DELETED', payload: card });
+  yield put(Card.destroyStarted({ card }));
 
   try {
     yield call(Api.deleteCard, card);
-    yield put({ type: 'CARD_DELETE_SUCCEEDED', payload: card });
+    yield put(Card.destroySucceeded({ card }));
   } catch (error) {
-    console.warn(error);
-    yield put({ type: 'CARD_DELETE_FAILED', error });
+    yield put(Card.destroyFailed({ card, error }));
   }
 }
 
 export function* saga() {
   yield takeLatest('DATA_LOAD_REQUESTED', handleDataLoadRequested);
 
-  yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
   yield takeLatest('LIST_CREATE_REQUESTED', handleListCreateRequested);
-  yield takeLatest('LIST_DELETE_REQUESTED', handleListDeleteRequested);
+  yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
+  yield takeLatest('LIST_DESTROY_REQUESTED', handleListDestoryRequested);
 
-  yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
   yield takeLatest('CARD_CREATE_REQUESTED', handleCardCreateRequested);
-  yield takeLatest('CARD_DELETE_REQUESTED', handleCardDeleteRequested);
+  yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
+  yield takeLatest('CARD_DESTROY_REQUESTED', handleCardDestroyRequested);
 }

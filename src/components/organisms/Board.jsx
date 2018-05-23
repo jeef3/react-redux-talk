@@ -10,7 +10,7 @@ import ListLayout from '../templates/ListLayout';
 import ListTitle from '../atoms/ListTitle';
 import EditableText from '../molecules/EditableText';
 import List from '../molecules/List';
-import LoadingData from '../organisms/LoadingData';
+import LoadingData from '../molecules/LoadingData';
 
 const Container = styled.div`
   overflow-x: auto;
@@ -86,12 +86,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onListUpdated: list => dispatch(ListActions.updateList(list)),
-  onListCreated: list => dispatch(ListActions.createList(list)),
-  onCardUpdated: card => dispatch(CardActions.updateCard(card)),
+  onListCreated: list => dispatch(ListActions.create({ list })),
+  onListUpdated: list => dispatch(ListActions.update({ list })),
+
+  onCardUpdated: card => dispatch(CardActions.update({ card })),
   onCardCreated: (card, listId) =>
-    dispatch(CardActions.createCard(card, listId)),
-  onCardDeleted: card => dispatch(CardActions.deleteCard(card))
+    dispatch(CardActions.create({ card, listId })),
+  onCardDeleted: card => dispatch(CardActions.destroy({ card }))
 });
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);

@@ -1,13 +1,20 @@
-const swapClientCard = (state, { card, clientId }) => {
-  const nextState = { ...state };
+const swapClientCard = (state, { card }) => {
+  if (!card.clientId) {
+    return state;
+  }
 
-  delete nextState[clientId];
-  nextState[card.id] = card;
+  const nextState = { ...state };
+  delete nextState[card.clientId];
+
+  const updatedCard = { ...card };
+  delete updatedCard.clientId;
+
+  nextState[updatedCard.id] = updatedCard;
 
   return nextState;
 };
 
-const deleteCard = (state, card) => {
+const deleteCard = (state, { card }) => {
   const nextState = { ...state };
 
   delete nextState[card.id];
@@ -22,17 +29,14 @@ const cards = (state = {}, action) => {
         (p, card) => ({ ...p, [card.id]: card }),
         {}
       );
-    case 'CARD_UPDATED':
-    case 'CARD_SAVE_SUCCEEDED':
-    case 'CARD_CREATED':
+    case 'CARD_SAVE_STARTED':
       return {
         ...state,
-        [action.payload.id]: action.payload
+        [action.payload.card.id]: action.payload.card
       };
-    case 'CARD_CREATE_SUCCEEDED':
+    case 'CARD_SAVE_SUCCEEDED':
       return swapClientCard(state, action.payload);
-    case 'CARD_DELETED':
-    case 'CARD_DELETE_SUCCEEDED':
+    case 'CARD_DESTROY_STARTED':
       return deleteCard(state, action.payload);
     default:
       return state;

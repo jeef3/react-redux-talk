@@ -9,6 +9,7 @@ import ButtonGroup from '../atoms/ButtonGroup';
 import Card from '../atoms/Card';
 import CardTextArea from '../atoms/CardTextArea';
 import CardTitle from '../atoms/CardTitle';
+import DisabledText from '../atoms/DisabledText';
 import ListTitle from '../atoms/ListTitle';
 import ListHeaderInput from '../atoms/ListHeaderInput';
 import ListLayout from '../templates/ListLayout';
@@ -46,56 +47,64 @@ export default ({
         onChange={name => onListChanged({ ...list, name })}
       />
     )}
-    renderCard={card => (
-      <EditableText
-        value={card.title}
-        render={() => (
-          <Card>
-            <CardTitle>{nl2br(card.title)}</CardTitle>
-          </Card>
-        )}
-        renderEditing={({
-          editingValue,
-          onKeyDown,
-          onChange,
-          onSubmit,
-          onCancel,
-          ref
-        }) => (
-          <div>
+    renderCard={card =>
+      card.clientId ? (
+        <Card>
+          <CardTitle>
+            <DisabledText>{nl2br(card.title)}</DisabledText>
+          </CardTitle>
+        </Card>
+      ) : (
+        <EditableText
+          value={card.title}
+          render={() => (
             <Card>
-              <CardTextArea
-                value={editingValue}
-                onKeyDown={onKeyDown}
-                onChange={onChange}
-                innerRef={ref}
-              />
+              <CardTitle>{nl2br(card.title)}</CardTitle>
             </Card>
-            <ButtonBar>
-              <ButtonGroup>
-                <Button primary title="Save changes" onClick={onSubmit}>
-                  Save
-                </Button>
-                <Button secondary title="Cancel changes" onClick={onCancel}>
-                  <Icon icon={faTimes} />
-                </Button>
-              </ButtonGroup>
+          )}
+          renderEditing={({
+            editingValue,
+            onKeyDown,
+            onChange,
+            onSubmit,
+            onCancel,
+            ref
+          }) => (
+            <div>
+              <Card>
+                <CardTextArea
+                  value={editingValue}
+                  onKeyDown={onKeyDown}
+                  onChange={onChange}
+                  innerRef={ref}
+                />
+              </Card>
+              <ButtonBar>
+                <ButtonGroup>
+                  <Button primary title="Save changes" onClick={onSubmit}>
+                    Save
+                  </Button>
+                  <Button secondary title="Cancel changes" onClick={onCancel}>
+                    <Icon icon={faTimes} />
+                  </Button>
+                </ButtonGroup>
 
-              <ButtonGroup>
-                <Button
-                  secondary
-                  title="Delete card"
-                  onClick={() => onCardDeleted(card)}
-                >
-                  <Icon icon={faTrash} />
-                </Button>
-              </ButtonGroup>
-            </ButtonBar>
-          </div>
-        )}
-        onChange={title => onCardChanged({ ...card, title })}
-      />
-    )}
+                <ButtonGroup>
+                  <Button
+                    secondary
+                    title="Delete card"
+                    onClick={() => onCardDeleted(card)}
+                  >
+                    <Icon icon={faTrash} />
+                  </Button>
+                </ButtonGroup>
+              </ButtonBar>
+            </div>
+          )}
+          onChange={title => onCardChanged({ ...card, title })}
+        />
+      )
+    }
     renderFooter={() => (
       <EditableText
         value=""
