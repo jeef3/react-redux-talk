@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Board from './organisms/Board';
-import TopBar from './organisms/TopBar';
-
 const Container = styled.div`
   height: 100vh;
 
@@ -12,13 +9,13 @@ const Container = styled.div`
   display: grid;
   grid-template-rows: 50px 1fr;
 `;
-Container.displayName = 'Container';
+Container.displayName = 'AppLayout_Container';
 
-const App = () => (
+const AppLayout = ({ renderHeader, renderBoard }) => (
   <Container>
-    <TopBar />
-    <Board lists={[{}]} />
+    {renderHeader()}
+    {renderBoard()}
   </Container>
 );
 
-export default App;
+export default AppLayout;
