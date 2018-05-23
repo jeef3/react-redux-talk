@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 
+import cards from './cards';
 import listOrder from './listOrder';
 import lists from './lists';
-import cards from './cards';
+import loading from './loading';
 
 export default combineReducers({
+  cards,
   listOrder,
   lists,
-  cards
+  loading
 });

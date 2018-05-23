@@ -2,6 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import uuid from 'uuid';
 
 import * as Api from './api';
+import { Common } from './actions';
 
 export function* updateList(list) {
   yield put({ type: 'LIST_UPDATED', payload: list });
@@ -15,15 +16,14 @@ export function* updateList(list) {
 }
 
 export function* handleDataLoadRequested() {
+  yield put(Common.loadDataStarted());
+
   try {
     const listOrder = yield call(Api.listOrder);
     const lists = yield call(Api.lists);
     const cards = yield call(Api.cards);
 
-    yield put({
-      type: 'DATA_LOAD_SUCCEEDED',
-      payload: { listOrder, lists, cards }
-    });
+    yield put(Common.loadDataSucceeded({ listOrder, lists, cards }));
   } catch (error) {
     yield put({ type: 'DATA_LOAD_FAILED', error });
   }
