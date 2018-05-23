@@ -1,11 +1,19 @@
 import React from 'react';
 
-import AppLayout from './templates/AppLayout';
-import Board from './organisms/Board';
-import TopBar from './organisms/TopBar';
-
 const App = () => (
-  <AppLayout renderHeader={() => <TopBar />} renderBoard={() => <Board />} />
+  <div
+    style={{
+      height: '100vh',
+      background: '#4f5d75',
+
+      display: 'grid',
+      gridTemplateRows: '50px 1fr'
+    }}
+  >
+    <div style={{ background: '#ec5766' }}>Mini Trello</div>
+
+    <div>Lists will go here</div>
+  </div>
 );
 
 export default App;
