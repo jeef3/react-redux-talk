@@ -14,10 +14,10 @@ const Container = styled.div`
 `;
 Container.displayName = 'Container';
 
-const App = ({ lists }) => (
+const App = ({ lists, cards, listOrder }) => (
   <Container>
     <TopBar />
-    <Board lists={lists} />
+    <Board lists={lists} cards={cards} listOrder={listOrder} />
   </Container>
 );
 

@@ -20,8 +20,16 @@ const Container = styled.div`
 `;
 Container.displayName = 'Board_Container';
 
-const Board = ({ lists }) => (
-  <Container>{lists.map(list => <List key={list.id} list={list} />)}</Container>
+const Board = ({ lists = [], cards = [], listOrder = [] }) => (
+  <Container>
+    {listOrder
+      .map(listId => lists.find(list => list.id === listId))
+      .map(list => ({
+        ...list,
+        cards: list.cards.map(cardId => cards.find(card => card.id === cardId))
+      }))
+      .map(list => <List key={list.id} list={list} />)}
+  </Container>
 );
 
 export default Board;
