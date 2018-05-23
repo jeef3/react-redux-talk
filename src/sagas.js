@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import uuid from 'uuid';
 
 import * as Api from './api';
@@ -167,11 +167,11 @@ export function* handleCardDestroyRequested(action) {
 export function* saga() {
   yield takeLatest('DATA_LOAD_REQUESTED', handleDataLoadRequested);
 
-  yield takeLatest('LIST_CREATE_REQUESTED', handleListCreateRequested);
-  yield takeLatest('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
-  yield takeLatest('LIST_DESTROY_REQUESTED', handleListDestoryRequested);
+  yield takeEvery('LIST_CREATE_REQUESTED', handleListCreateRequested);
+  yield takeEvery('LIST_UPDATE_REQUESTED', handleListUpdateRequested);
+  yield takeEvery('LIST_DESTROY_REQUESTED', handleListDestoryRequested);
 
-  yield takeLatest('CARD_CREATE_REQUESTED', handleCardCreateRequested);
-  yield takeLatest('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
-  yield takeLatest('CARD_DESTROY_REQUESTED', handleCardDestroyRequested);
+  yield takeEvery('CARD_CREATE_REQUESTED', handleCardCreateRequested);
+  yield takeEvery('CARD_UPDATE_REQUESTED', handleCardUpdateRequested);
+  yield takeEvery('CARD_DESTROY_REQUESTED', handleCardDestroyRequested);
 }
