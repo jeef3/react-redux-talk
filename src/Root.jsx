@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AppState from './AppState';
 import * as Api from './api';
 import App from './components/App';
 import './base.css';
@@ -9,7 +10,9 @@ class Root extends React.Component {
     super(props);
 
     this.state = {
-      lists: []
+      lists: [],
+      cards: [],
+      listOrder: []
     };
   }
 
@@ -24,7 +27,11 @@ class Root extends React.Component {
   render() {
     const { lists, cards, listOrder } = this.state;
 
-    return <App lists={lists} cards={cards} listOrder={listOrder} />;
+    return (
+      <AppState.Provider value={{ lists, cards, listOrder }}>
+        <App />
+      </AppState.Provider>
+    );
   }
 }
 
